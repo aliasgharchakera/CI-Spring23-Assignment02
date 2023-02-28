@@ -1,4 +1,5 @@
 import numpy as np
+from input import input
 
 class AntColony:
     def __init__(self, num_ants, num_iterations, evaporation_rate, alpha, beta):
@@ -70,6 +71,7 @@ graph = np.array([[0, 1, 2, 3],
                   [3, 5, 6, 0]])
 
 # Create an instance of the AntColony class
+graph, k, n, c = input('A-n32-k05.xml')
 ant_colony = AntColony(num_ants=10, num_iterations=100, evaporation_rate=0.5, alpha=1, beta=5)
 
 # Run the algorithm and get the best path and length
