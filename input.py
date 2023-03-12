@@ -20,10 +20,11 @@ def distance_matrix(coords):
             dist_matrix[j][i] = dist_matrix[i][j]
     return dist_matrix
 
-def input(path) -> list[list]:
+def input(path):
     tree = ET.parse(f'instances_CVRP/{path}')
     root = tree.getroot()
     nodes = []
+    demands = []
     name = root.find('info/name').text
     k = int(name[-2:])
     n = int(name[3:5])
@@ -34,8 +35,12 @@ def input(path) -> list[list]:
         cx = float(node.find('cx').text)
         cy = float(node.find('cy').text)
         nodes.append((cx, cy))
-    return np.array(distance_matrix(nodes)), k, n, c
+    for node in root.findall('requests/request'):
+        node_id = int(node.get('id'))
+        r = float(node.find('quantity').text)
+        demands.append(r)
+    return np.array(distance_matrix(nodes)), demands, k, n, c
 
-input('A-n32-k05.xml')
+print(input('A-n32-k05.xml'))
 # matrix = distance_matrix(nodes)
 # print(matrix)
