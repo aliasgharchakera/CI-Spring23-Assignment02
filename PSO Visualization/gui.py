@@ -8,20 +8,15 @@ class GUI:  # resolution is hard-coded for now, can be generalized by adding ass
         self.sliders = []
         self.bg = [1080, 0, 200, 720]  # x,y,w,h
         # Pressable Buttons
-        # self.buttons.append(Button('Add Double Slit', self.bg))
-        # self.buttons.append(Button('Add Obstacle', self.bg))
-        # self.buttons.append(Button('Add Colony', self.bg))
-        # self.buttons.append(Button('Add Food', self.bg))
-        # self.buttons.append(Button('Add Grass', self.bg))
         # # #Toggle Buttons
         self.buttons.append(Button('Add Car', self.bg))
-        self.buttons[0].pressed = True  # press remove by default
-        self.buttons.append(Button('Toggle Screen', self.bg))
-        self.buttons[0].pressed = True
+        self.buttons.append(Button('Remove Car', self.bg))
+        self.buttons[0].pressed = False  # press remove by default
+
         # Sliders
-        self.sliders.append(Slider('Red Intensity', 0, 255, 0, self.bg))
-        self.sliders.append(Slider('Green Intensity', 0, 255, 0, self.bg))
-        self.sliders.append(Slider('Blue Intensity', 0, 255, 0, self.bg))
+        self.sliders.append(Slider('CO2 Intensity', 0, 255, 0, self.bg))
+        self.sliders.append(Slider("Smoke Particles' Velocity", 0, 255, 0, self.bg))
+        self.sliders.append(Slider('Car Speed', 0,255,0,self.bg))
         self.sliders.append(Slider('Lifespan', 0, 1000, 100, self.bg))
         self.tit = '    Particle Simulation\n'
         self.crs = '    Computational Intelligence\n'
@@ -50,6 +45,12 @@ class GUI:  # resolution is hard-coded for now, can be generalized by adding ass
     def mouseHover(self):
         for i in self.buttons:
             if (i.mouseHover()):
+                return i.id
+        return None
+    
+    def mousepressed(self):
+        for i in self.buttons:
+            if (i.mousepressed()):
                 return i.id
         return None
 

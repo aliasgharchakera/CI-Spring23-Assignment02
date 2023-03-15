@@ -23,7 +23,7 @@ class Car(object):
         image(self.img,self.l.x,self.l.y)
     
     def update(self):
-        self.l.x += 10
+        self.l.x += 5
         # self.ps.add_particle(self.l.x-120, 680)
         # self.ps.update()
         if (self.l.x > 1140):
@@ -31,5 +31,8 @@ class Car(object):
         return self.l.x
         # self.ps.update()
         # self.render()
+    def addCar(self):
+        imageMode(CENTER)
+        image(self.img, 0,650)
 
     

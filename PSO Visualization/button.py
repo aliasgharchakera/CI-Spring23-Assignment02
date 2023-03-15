@@ -1,3 +1,5 @@
+from car import Car
+
 class Button:
     buttonCount = 0
     buttonSpacing = 48
@@ -13,11 +15,16 @@ class Button:
         Button.buttonCount += 1
         self.pressed = False
         self.color = [50, 95, 149]
+        self.car = Car(PVector(100,650))
 
     def draw(self):
         stroke(0)
         if(self.mouseHover() or self.pressed):
             fill(27, 52, 82)
+            # print('hello')
+            # self.car.draw()
+            # self.car.update()
+            
         else:
             fill(*self.color)
         # Create Button
@@ -27,6 +34,10 @@ class Button:
         textSize(12)
         textAlign(CENTER, CENTER)
         text(self.label, self.x + self.w/2, self.y + self.h/2)
+        
+    def mousepressed(self):
+        if mousePressed:
+            return (mouseX >= self.x and mouseX <= (self.x + self.w) and mouseY >= self.y and mouseY <= (self.y + self.h))
 
     def mouseHover(self):  # executed only after a click has occured on-screen
         return (mouseX >= self.x and mouseX <= (self.x + self.w) and mouseY >= self.y and mouseY <= (self.y + self.h))
