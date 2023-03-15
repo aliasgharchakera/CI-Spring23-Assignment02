@@ -1,6 +1,16 @@
 import math
 import numpy as np
 import xml.etree.ElementTree as ET
+import vrplib
+
+def readFile(path):
+    vrplib.download_instance(path, f'instances/{path}.vrp')
+    return vrplib.read_instance(f"instances/{path}.vrp")
+
+# fileInst = FileRead("A-n60-k9")
+# a = fileInst.instanceTaker()
+# print(a["capacity"])
+
     
 def distance(p1, p2):
     """
@@ -39,8 +49,8 @@ def input(path):
         node_id = int(node.get('id'))
         r = float(node.find('quantity').text)
         demands.append(r)
-    return np.array(distance_matrix(nodes)), demands, k, n, c
+    return np.array(distance_matrix(nodes)), demands, k, n - 1, c
 
-print(input('A-n32-k05.xml'))
+# print(input('A-n32-k05.xml'))
 # matrix = distance_matrix(nodes)
 # print(matrix)

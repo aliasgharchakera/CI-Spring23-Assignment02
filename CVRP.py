@@ -122,16 +122,20 @@ alpha = 1
 beta = 3
 rho = 0.5
 q = 100
-# max_capacity = 200
-# num_customers = 10
-# distances = np.random.rand(num_customers+1, num_customers+1)
-# demands = np.random.randint(1, 50, num_customers+1)
+max_capacity = 200
+num_customers = 10
+distances = np.random.rand(num_customers+1, num_customers+1)
+demands = np.random.randint(1, 50, num_customers+1)
+print(distances)
+print(len(demands), num_customers)
+print(demands)
 distances, demands, k, num_customers, max_capacity = input('A-n32-k05.xml')
 # create ACO instance and run algorithm
 print(distances)
+print(len(demands), num_customers)
 print(demands)
 aco = AntColonyOptimization(num_ants, num_iterations, alpha, beta, rho, q, max_capacity, num_customers, distances, demands)
-best_solution, best_cost = aco.run()
+# best_solution, best_cost = aco.run()
 
 # print best solution and cost
 print("Best Solution:", best_solution)
