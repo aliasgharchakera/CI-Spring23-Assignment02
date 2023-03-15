@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from fake import AntColonyOptimization
+from CVRP import AntColonyOptimization
 
 
 iterations = 30

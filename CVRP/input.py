@@ -3,13 +3,25 @@ import numpy as np
 import xml.etree.ElementTree as ET
 import vrplib
 
-def readFile(path):
+def readFile(path) -> dict:
+    '''
+    Reads the input file and returns a dictionary with the following keys:
+    name: Name of the instance
+    edge_weight_type: Type of edge weight
+    capacity: Capacity of the vehicle
+    depot: Depot node
+    dimension: Number of nodes
+    optimal: Optimal solution
+    edge_weight: Distance matrix
+    demand: Demand list
+    
+    Returns the dictionary
+    
+    Args:
+        path (str): Path to the input file
+    '''
     vrplib.download_instance(path, f'instances/{path}.vrp')
     return vrplib.read_instance(f"instances/{path}.vrp")
-
-# fileInst = FileRead("A-n60-k9")
-# a = fileInst.instanceTaker()
-# print(a["capacity"])
 
     
 def distance(p1, p2):
@@ -50,7 +62,3 @@ def input(path):
         r = float(node.find('quantity').text)
         demands.append(r)
     return np.array(distance_matrix(nodes)), demands, k, n - 1, c
-
-# print(input('A-n32-k05.xml'))
-# matrix = distance_matrix(nodes)
-# print(matrix)

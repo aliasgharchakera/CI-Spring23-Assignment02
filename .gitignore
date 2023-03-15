@@ -8,3 +8,4 @@ auto/
 solution/
 __pycache__/
 CVRP/resources/
+CVRP/__pycache__/
