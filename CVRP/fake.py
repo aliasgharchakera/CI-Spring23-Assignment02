@@ -112,7 +112,22 @@ class AntColonyOptimization:
         
         return proportionalProbabilities
 
+    def getNextCity(self, currentCity, unvisited, truckCapacity):
+        potentialCities = list()
+        for i in unvisited:
+            if self.demand[i] <= truckCapacity and i!= currentCity:
+                potentialCities.append(i)
+        
+        proportionalProbabilities = self.calculateProbabilities(currentCity, potentialCities)
 
+        # Choosing the Random number
+        p = random.random()
+        for i in range(len(proportionalProbabilities)):
+            if p >= proportionalProbabilities[i][0] and p < proportionalProbabilities[i][1]:
+                selectedCity = i
+                break
+        
+        return potentialCities[selectedCity]
 
     def simulateAnt(self, initialize=False):
         # Initializing/Resetting the route
@@ -143,34 +158,17 @@ class AntColonyOptimization:
                     path = list()
                     path.append(self.depot)
                     currentCity = self.depot
-                truckCapacity -= self.demand[nextCity]
-                totalDistance += self.distances[currentCity][nextCity]
-                path.append(nextCity)
-                currentCity = nextCity
-                unvisited.pop(i)
             else:
                 # Choosing the city with the help of probabilities
-                potentialCities = list()
-                for i in unvisited:
-                    if self.demand[i] <= truckCapacity and i!= currentCity:
-                        potentialCities.append(i)
-                
-                proportionalProbabilities = self.calculateProbabilities(currentCity, potentialCities)
+                nextCity = self.getNextCity(currentCity, unvisited, truckCapacity)
+            truckCapacity -= self.demand[nextCity]
+            totalDistance += self.distances[currentCity][nextCity]
 
-                # Choosing the Random number
-                p = random.random()
-                for i in range(len(proportionalProbabilities)):
-                    if p >= proportionalProbabilities[i][0] and p < proportionalProbabilities[i][1]:
-                        selectedCity = i
-                        break
-                
-                nextCity = potentialCities[selectedCity]
-                truckCapacity -= self.demand[nextCity]
-                totalDistance += self.distances[currentCity][nextCity]
-
-                currentCity = nextCity
-                path.append(currentCity)
-
+            currentCity = nextCity
+            path.append(currentCity)
+            if initialize:
+                unvisited.pop(i)
+            else:
                 if currentCity == self.depot:
                     truckCapacity = self.capacity
                     route.append(path)
@@ -188,7 +186,7 @@ class AntColonyOptimization:
 
 
 
-    def updatePhermone(self):
+    def updateTau(self):
         deltaTau = self.computeTau()
         for i in range(len(self.tau)):
             for j in range(len(self.tau)):
@@ -204,7 +202,7 @@ class AntColonyOptimization:
         for i in range(self.iteration):
             self.AntColonySimulation(initialize=False)
             # Updating Tau Matrix
-            self.updatePhermone()
+            self.updateTau()
 
         # Checking the minimum distance after the entire process
         minDist = float('inf')
