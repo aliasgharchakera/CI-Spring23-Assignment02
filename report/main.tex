@@ -1,0 +1,119 @@
+\documentclass[a4paper]{exam}
+
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{titling}
+% \usepackage[demo]{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+% \usepackage{subfigure}
+
+
+\printanswers
+
+\title{Assignment 2: Swarm Intelligence\\CS 451: Computational Intelligence}
+\author{Ali Asghar Yousuf\\Muhammad Murtaza}  % <==== replace with your team name for grading
+\date{\today}
+
+\runningheader{CS 451\\Computational Intelligence}{Swarm Intelligence}{\theauthor}
+\runningheadrule
+\runningfootrule
+\runningfooter{}{Page \thepage\ of \numpages}{}
+
+\qformat{{\large\bf \thequestion. \thequestiontitle}\hfill}
+\boxedpoints
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+
+  \titledquestion{Ant Colony Optimization}[H]
+
+  \begin{center}
+  \large
+  Capacitated Vehicle Routing Problem
+  \end{center}
+
+  \normalsize
+  Plot of the best and average solution of Capacitated Vehicle Routing Problem using Ant Colony Optimization. The best solution is the one with the least distance. The average solution is the average of the distance of all the solutions in the population in each iteration.
+  \begin{figure}[H]
+    \centering
+    \textbf{Dataset A-n32-k5}
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=1\linewidth]{images/n32-k5_20.png}
+      \caption{ACO with 20 iterations}
+      \label{fig:n32-k5_20}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=1\linewidth]{images/n32-k5_50.png}
+      \caption{ACO with 50 iterations}
+      \label{fig:n32-k5_50}
+    \end{subfigure}
+    \caption{Note: Fitness is the distance}
+    \label{fig:n32-k5}
+  \end{figure}
+
+  \begin{figure}[H]
+    \centering
+    \textbf{Dataset A-n44-k6}
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=1\linewidth]{images/n44-k6_20.png}
+      \caption{ACO with 20 iterations}
+      \label{fig:n44-k6_20}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=1\linewidth]{images/n44-k6_50.png}
+      \caption{ACO with 50 iterations}
+      \label{fig:n44-k6_50}
+    \end{subfigure}
+    \caption{Note: Fitness is the distance}
+    \label{fig:n44-k6}
+  \end{figure}
+
+  \begin{figure}[H]
+    \centering
+    \textbf{Dataset A-n60-k9}
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=1\linewidth]{images/n60-k9_20.png}
+      \caption{ACO with 20 iterations}
+      \label{fig:n60-k9_20}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=1\linewidth]{images/n60-k9_50.png}
+      \caption{ACO with 50 iterations}
+      \label{fig:n60-k9_50}
+    \end{subfigure}
+    \caption{Note: Fitness is the distance}
+    \label{fig:60-k9}
+  \end{figure}
+
+  \begin{figure}[H]
+    \centering
+    \textbf{Dataset A-n80-k10}
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=1\linewidth]{images/n80-k10_20.png}
+      \caption{ACO with 20 iterations}
+      \label{fig:n80-k10_20}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=1\linewidth]{images/n80-k10_50.png}
+      \caption{ACO with 50 iterations}
+      \label{fig:n80-k10_50}
+    \end{subfigure}
+    \caption{Note: Fitness is the distance}
+    \label{fig:n80-k10}
+  \end{figure}
+\end{questions}
+
+\end{document}

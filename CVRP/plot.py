@@ -3,8 +3,8 @@ import numpy as np
 from fake import AntColonyOptimization
 
 
-iterations = 10
-numAnts = 10
+iterations = 30
+numAnts = 20
 def main():
     minlst = []
     avglst = []
