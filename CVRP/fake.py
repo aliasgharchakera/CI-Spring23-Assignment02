@@ -100,30 +100,24 @@ class AntColonyOptimization:
                     deltaT[route[path+1]][route[path]] += np.reciprocal(ant.distance)
         return deltaT
     
-    # def computingInverseDistance(self, i, j):
-    #     InverseDistance = [[0 for i in range(self.n)] for j in range(self.n)]
-
-    #     return 1/self.distances[i][j]
-    
 
     def calculateProbabilities(self, currentCity, potentialCities):
 
-        probabilities = []
+        probabilities = list()
         for i in potentialCities:
             p = math.pow(self.Tau[currentCity][i], self.alpha) + math.pow(self.eta[currentCity][i], self.beta)
             probabilities.append(p)
 
-        sumProb = sum(probabilities)
-        finalProb = [i/sumProb for i in probabilities]
+        probabilities = np.array(probabilities)/np.sum(probabilities)
 
         # Now making the ranges of Probabilities
-        probRange = {}
-        startRange = 0
-        for i in range(len(finalProb)):
-            probRange[i] = [startRange , startRange + finalProb[i]]
-            startRange += finalProb[i]
+        proportionalProbabilities = list()
+        start = 0
+        for i in range(len(probabilities)):
+            proportionalProbabilities.append([start , start + probabilities[i]])
+            start += probabilities[i]
         
-        return probRange
+        return proportionalProbabilities
 
 
 
@@ -149,7 +143,7 @@ class AntColonyOptimization:
 
             # Choosing the Random number
             randNum = random.random()
-            for i in probRange:
+            for i in range(len(probRange)):
                 if randNum >= probRange[i][0] and randNum <= probRange[i][1]:
                     selectedCity = i
                     break

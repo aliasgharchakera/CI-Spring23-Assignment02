@@ -1,5 +1,5 @@
 import numpy as np
-from input import input
+from CVRP.input import input
 import random
 import copy
 
