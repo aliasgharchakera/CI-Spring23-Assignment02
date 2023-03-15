@@ -9,18 +9,16 @@ class Ant:
         self.distance = distance
 
 class AntColonyOptimization:
-    def __init__(self, alpha, beta, iteration, numAnts, evapRate, path) -> None:
+    def __init__(self, alpha, beta, iteration, numAnts, rho, path) -> None:
         self.alpha = alpha
         self.beta = beta
         self.iteration = iteration
         self.numAnts = numAnts
-        self.evapRate = evapRate
+        self.evapRate = 1 - rho
         self.Q = 1
 
         # Reading the Distance Matrix file with help of ACO File Read
         fileInst = readFile(path)
-        # fileInst = temp.instanceTaker()
-        # print(fileInst)
         self.capacity = fileInst["capacity"]
         self.depot = fileInst["depot"][0]
         self.n = fileInst["dimension"]
@@ -29,10 +27,17 @@ class AntColonyOptimization:
 
         self.eta = np.reciprocal(self.distances, out=np.zeros_like(self.distances), where=self.distances!=0)
        
-        # self.eta = [[1/i if i != 0 else 0 for i in row] for row in self.distances]
+        self.tau = np.zeros((self.n, self.n))
 
 
+    def AntColonySimulation(self, initialize=False):
+        # Making Artificial Ants by calculating Routes
+        self.ants = list()
+        for i in range(self.numAnts):
+            ant = self.simulateAnt(initialize)
+            self.ants.append(ant)
 
+       
     def createAnt(self):
         route = list()
         unvisited = [i for i in range(1, self.n)]
@@ -77,35 +82,23 @@ class AntColonyOptimization:
         return ant
 
 
-    def AntColonyInitialization(self):
-        # Initalizing Pheromones with 1
-        self.pheromones = [[0 for i in range(self.n)] for j in range(self.n)]
-
-        self.ants = [0 for i in range(self.numAnts)]
-
-        # Making Artificial Ants by calculating Routes
-        self.ants = []
-        for i in range(self.numAnts):
-            ant = self.simulateAnt(True)
-            self.ants.append(ant)
-       
     
 
     def computeTau(self):
-        deltaT = [[0 for i in range(self.n)] for j in range(self.n)]
+        deltaTau = [[0 for i in range(self.n)] for j in range(self.n)]
         for ant in self.ants:
             for route in ant.routes:
                 for path in range(0,len(route)-1):
-                    deltaT[route[path]][route[path+1]] += np.reciprocal(ant.distance)
-                    deltaT[route[path+1]][route[path]] += np.reciprocal(ant.distance)
-        return deltaT
+                    deltaTau[route[path]][route[path + 1]] += np.reciprocal(ant.distance)
+                    deltaTau[route[path + 1]][route[path]] += np.reciprocal(ant.distance)
+        return deltaTau
     
 
     def calculateProbabilities(self, currentCity, potentialCities):
 
         probabilities = list()
         for i in potentialCities:
-            p = math.pow(self.Tau[currentCity][i], self.alpha) + math.pow(self.eta[currentCity][i], self.beta)
+            p = math.pow(self.tau[currentCity][i], self.alpha) + math.pow(self.eta[currentCity][i], self.beta)
             probabilities.append(p)
 
         probabilities = np.array(probabilities)/np.sum(probabilities)
@@ -122,7 +115,7 @@ class AntColonyOptimization:
 
 
     def simulateAnt(self, initialize=False):
-        # Copying the code from AntMaking as now I have to decide the city with the help of probabilities
+        # Initializing/Resetting the route
         
         route = list()
         unvisited = [i for i in range(self.n)]
@@ -142,16 +135,7 @@ class AntColonyOptimization:
                 # Choosing random city from unvisited cities
                 i = random.randint(0, len(unvisited) - 1)
                 nextCity = unvisited[i]
-                if self.demand[nextCity] <= truckCapacity:
-                    truckCapacity -= self.demand[nextCity]
-                    totalDistance += self.distances[currentCity][nextCity]
-                    path.append(nextCity)
-                    currentCity = nextCity
-                    # Now its time to pop the city from unvisited
-                    unvisited.pop(i)
-                else:
-                    # This means that the truck is full and we need to go back to depot and line 70 will simply add the distance of depot to current city or vice versa
-
+                if self.demand[nextCity] > truckCapacity:
                     totalDistance += self.distances[currentCity][self.depot]
                     route.append(path)
                     # Changing the capacity of vehicles
@@ -159,11 +143,11 @@ class AntColonyOptimization:
                     path = list()
                     path.append(self.depot)
                     currentCity = self.depot
-                    truckCapacity -= self.demand[nextCity]
-                    totalDistance += self.distances[currentCity][nextCity]
-                    path.append(nextCity)
-                    currentCity = nextCity
-                    unvisited.pop(i)
+                truckCapacity -= self.demand[nextCity]
+                totalDistance += self.distances[currentCity][nextCity]
+                path.append(nextCity)
+                currentCity = nextCity
+                unvisited.pop(i)
             else:
                 # Choosing the city with the help of probabilities
                 potentialCities = list()
@@ -192,10 +176,7 @@ class AntColonyOptimization:
                     route.append(path)
                     path = [self.depot]
                 else:
-                    for i in unvisited:
-                        if i == nextCity:
-                            unvisited.remove(i)
-                            break
+                    unvisited.remove(currentCity)
 
         # Now the path will again go to Depot to make a full route
         path.append(self.depot)
@@ -209,26 +190,21 @@ class AntColonyOptimization:
 
     def updatePhermone(self):
         deltaTau = self.computeTau()
-        for i in range(len(self.Tau)):
-            for j in range(len(self.Tau)):
-                self.Tau[i][j] = (self.Tau[i][j] * self.evapRate) + deltaTau[i][j]
+        for i in range(len(self.tau)):
+            for j in range(len(self.tau)):
+                self.tau[i][j] = (self.tau[i][j] * self.evapRate) + deltaTau[i][j]
             
 
-    def ACO_main(self):
-        self.AntColonyInitialization()
+    def run(self):
+        self.AntColonySimulation(initialize=True)
 
         # Updating the Tau Matrix
-        self.Tau = self.computeTau()
+        self.tau = self.computeTau()
 
         for i in range(self.iteration):
-            tempAnt = []
-            for j in range(self.numAnts):
-                tempAnt.append(self.simulateAnt())
-            
-            self.ants = tempAnt
-            # Now we have to update the Tow and get the new Tau
+            self.AntColonySimulation(initialize=False)
+            # Updating Tau Matrix
             self.updatePhermone()
-        
 
         # Checking the minimum distance after the entire process
         minDist = float('inf')
@@ -239,15 +215,10 @@ class AntColonyOptimization:
         
         print(minDist)
 
-
-
-
-
-
         
 
-temp = AntColonyOptimization(2, 2, 50, 30, 0.6, "A-n32-k5")
-temp.ACO_main()
+aco = AntColonyOptimization(4, 4, 50, 30, 0.5, "A-n32-k5")
+aco.run()
 # print(temp.distaneMatrix)
 # print(temp.inverseDM)
 # alpha, beta, iteration, numAnts, evapRate, path
