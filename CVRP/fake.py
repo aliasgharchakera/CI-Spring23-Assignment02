@@ -28,62 +28,19 @@ class AntColonyOptimization:
         self.eta = np.reciprocal(self.distances, out=np.zeros_like(self.distances), where=self.distances!=0)
        
         self.tau = np.zeros((self.n, self.n))
+        self.minDistance = np.inf
+        self.minRoute = None
+        self.avgDistances = list()
 
 
     def AntColonySimulation(self, initialize=False):
-        # Making Artificial Ants by calculating Routes
+        # If initialize is True, we randomly select a path, else we use the pheromones to select the path
         self.ants = list()
         for i in range(self.numAnts):
             ant = self.simulateAnt(initialize)
             self.ants.append(ant)
 
        
-    def createAnt(self):
-        route = list()
-        unvisited = [i for i in range(1, self.n)]
-        currentCity = self.depot
-        truckCapacity = self.capacity
-        totalDistance = 0
-        path = list()
-        path.append(self.depot)
-        while len(unvisited) > 0:
-            # Choosing random city from unvisited cities
-            i = random.randint(0, len(unvisited) - 1)
-            nextCity = unvisited[i]
-            if self.demand[nextCity] <= truckCapacity:
-                truckCapacity -= self.demand[nextCity]
-                totalDistance += self.distances[currentCity][nextCity]
-                path.append(nextCity)
-                currentCity = nextCity
-                # Now its time to pop the city from unvisited
-                unvisited.pop(i)
-            else:
-                # This means that the truck is full and we need to go back to depot and line 70 will simply add the distance of depot to current city or vice versa
-
-                totalDistance += self.distances[currentCity][self.depot]
-                route.append(path)
-                # Changing the capacity of vehicles
-                truckCapacity = self.capacity
-                path = list()
-                path.append(self.depot)
-                currentCity = self.depot
-                truckCapacity -= self.demand[nextCity]
-                totalDistance += self.distances[currentCity][nextCity]
-                path.append(nextCity)
-                currentCity = nextCity
-                unvisited.pop(i)
-        # Now I have to go back to depot to complete the route
-        path.append(self.depot)
-        totalDistance += self.distances[currentCity][self.depot]
-
-        route.append(path)
-
-        ant = Ant(route, totalDistance)
-        return ant
-
-
-    
-
     def computeTau(self):
         deltaTau = [[0 for i in range(self.n)] for j in range(self.n)]
         for ant in self.ants:
@@ -138,11 +95,9 @@ class AntColonyOptimization:
         if initialize:
             unvisited = unvisited[1:]
             lim = 0
-        currentCity = self.depot
-        truckCapacity = self.capacity
+        currentCity, truckCapacity = self.depot, self.capacity
         totalDistance = 0
-        path = list()
-        path.append(self.depot)
+        path = [currentCity]
 
         while len(unvisited) > lim:
             # Choosing random city from unvisited cities
@@ -152,12 +107,11 @@ class AntColonyOptimization:
                 nextCity = unvisited[i]
                 if self.demand[nextCity] > truckCapacity:
                     totalDistance += self.distances[currentCity][self.depot]
+                    currentCity = self.depot
                     route.append(path)
                     # Changing the capacity of vehicles
                     truckCapacity = self.capacity
-                    path = list()
-                    path.append(self.depot)
-                    currentCity = self.depot
+                    path = [self.depot]
             else:
                 # Choosing the city with the help of probabilities
                 nextCity = self.getNextCity(currentCity, unvisited, truckCapacity)
@@ -181,7 +135,10 @@ class AntColonyOptimization:
         totalDistance += self.distances[currentCity][self.depot]
 
         route.append(path)
-
+        if totalDistance < self.minDistance:
+            self.minDistance = totalDistance
+            self.minRoute = route
+        self.avgDistances.append(totalDistance)
         return Ant(route, totalDistance)
 
 
@@ -212,11 +169,11 @@ class AntColonyOptimization:
                 minRoute = ant.routes
         
         print(minDist)
+        print(minRoute)
+        print("Overall Minimum Distance: ", self.minDistance)
+        print("Overall Minimum Route: ", self.minRoute)
 
         
 
-aco = AntColonyOptimization(4, 4, 50, 30, 0.5, "A-n32-k5")
-aco.run()
-# print(temp.distaneMatrix)
-# print(temp.inverseDM)
-# alpha, beta, iteration, numAnts, evapRate, path
+# aco = AntColonyOptimization(4, 4, 50, 30, 0.5, "A-n32-k5")
+# aco.run()
