@@ -2,7 +2,7 @@ from button import Button
 from slider import Slider
 
 
-class GUI:  # resolution is hard-coded for now, can be generalized by adding association to Map
+class GUI: 
     def __init__(self):
         self.buttons = []
         self.sliders = []
@@ -14,9 +14,9 @@ class GUI:  # resolution is hard-coded for now, can be generalized by adding ass
         self.buttons[0].pressed = False  # press remove by default
 
         # Sliders
-        self.sliders.append(Slider('CO2 Intensity', 0, 255, 0, self.bg))
-        self.sliders.append(Slider("Smoke Particles' Velocity", 0, 255, 0, self.bg))
-        self.sliders.append(Slider('Car Speed', 0,255,0,self.bg))
+        self.sliders.append(Slider('Amount of particles', 1, 20, 1, self.bg))
+        self.sliders.append(Slider('C02 Intensity', 1,5,1,self.bg))
+        self.sliders.append(Slider('Car Speed', 1,5,1,self.bg))
         self.sliders.append(Slider('Lifespan', 0, 1000, 100, self.bg))
         self.tit = '    Particle Simulation\n'
         self.crs = '    Computational Intelligence\n'

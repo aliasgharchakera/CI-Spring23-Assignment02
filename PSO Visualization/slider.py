@@ -1,6 +1,8 @@
 # borrowed from: https://github.com/hackingmath/python-sliders/blob/master/slider.py
 from button import Button
 from particleEmitter import particleEmitter
+from smokeParticle import smokeParticle
+from car import Car
 
 
 
@@ -50,17 +52,21 @@ class Slider:
         # text label
         fill(255, 255, 255)
         text(self.label, self.x+60, self.y+20)
-        if(self.label == 'CO2 Intensity'):
+        if(self.label == 'Amount of particles'):
+            # print(self.val)
             particleEmitter.it = self.val
-            
-        #     # fireParticle.r = self.val
-        #     pass
-        # elif(self.label == 'Green Intensity'):
-        #     pass
-        #     # fireParticle.g = self.val
-        # elif(self.label == 'Blue Intensity'):
-        #     pass
-        #     # fireParticle.b = self.val
-        # elif(self.label == 'Lifespan'):
-        #     pass
-            # fireParticle.lifespan = self.val
+        #173, 170, 170
+        if(self.label == 'C02 Intensity'):
+            value = 0
+            if (int(self.val) == 1):
+                value = 255
+            if (int(self.val) == 4):
+                value = 120
+            if (int(self.val) == 5):
+                value = 0
+            smokeParticle.r = value
+            smokeParticle.g = value
+            smokeParticle.b = value
+        if (self.label == 'Car Speed'):
+            Car.speed = int(self.val)
+    

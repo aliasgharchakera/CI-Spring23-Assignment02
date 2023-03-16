@@ -9,7 +9,8 @@ class addCar():
             self.cars.append(Car(PVector(100,650)))
         
     def add_car(self):
-        self.cars.append(Car(PVector(100,650)))
+        if len(self.cars) < 3:
+            self.cars.append(Car(PVector(100,650)))
     
     def update(self):
         for i in self.cars:
@@ -17,4 +18,5 @@ class addCar():
             i.update()
     
     def remove_car(self):
-        del self.cars[-1]
+        if (len(self.cars) > 0):
+            del self.cars[-1]

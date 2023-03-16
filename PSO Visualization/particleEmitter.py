@@ -2,17 +2,18 @@ import random
 from smokeParticle import smokeParticle
 
 class particleEmitter(object):
-    
+    it = 0
     def __init__(self,num,img,loc):
         self.loc = loc.get()
         self.particles = []
         self.img = img
-        self.it = 1
+        # self.iter = 1
         for i in range(num):
             self.particles.append(smokeParticle(self.loc, self.img,1))
 
     def add_particle(self,x,y):
-        for i in range((self.it)):
+        # print(self.it)
+        for i in range((int(self.it))):
             self.particles.append(smokeParticle(PVector(x,y), self.img,1))
         
     def update(self):

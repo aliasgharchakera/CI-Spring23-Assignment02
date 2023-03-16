@@ -26,10 +26,8 @@ def draw():
     car.update()
     
     for i in range(len(car.cars)):
-        
         cx = car.cars[i].update()
         ps.add_particle(cx-100,680)
-    
     cloud.update(len(ps.particles))
     id = hud.mousepressed()
 
@@ -38,6 +36,6 @@ def mouseClicked():
     if (button):
         if button == 1:
             car.add_car()
-        if button  == 2:
+        if button == 2:
             car.remove_car()
             

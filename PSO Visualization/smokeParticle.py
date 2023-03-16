@@ -23,12 +23,12 @@ class smokeParticle(object):
         self.velocity.y -= self.gravity
         self.loc.x += self.velocity.x
         self.loc.y += self.velocity.y
+        noTint()
         
     def render(self):
         imageMode(CENTER)
+        tint(self.r,self.g,self.b,self.lifespan)
         image(self.img, self.loc.x, self.loc.y)
-        # tint(self.r, self.g, self.b, self.lifespan)
-
     
     def isDead(self):
         return self.lifespan <= 0.0
