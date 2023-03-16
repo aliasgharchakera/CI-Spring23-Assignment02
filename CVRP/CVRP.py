@@ -1,7 +1,7 @@
 import random
 import numpy as np
-from input import readFile
 import math
+from input import readFile
 
 class Ant:
     def __init__(self, routes, distance) -> None:
@@ -26,7 +26,6 @@ class AntColonyOptimization:
         self.distances = fileInst["edge_weight"]
 
         self.eta = np.reciprocal(self.distances, out=np.zeros_like(self.distances), where=self.distances!=0)
-       
         self.tau = np.zeros((self.n, self.n))
         self.minDistance = np.inf
         self.minRoute = None
@@ -53,7 +52,7 @@ class AntColonyOptimization:
         
         Returns the pheromones
         '''
-        deltaTau = [[0 for i in range(self.n)] for j in range(self.n)]
+        deltaTau = np.zeros((self.n, self.n))
         for ant in self.ants:
             for route in ant.routes:
                 for path in range(0,len(route)-1):
@@ -83,7 +82,8 @@ class AntColonyOptimization:
         proportionalProbabilities = list()
         start = 0
         for i in range(len(probabilities)):
-            proportionalProbabilities.append([start , start + probabilities[i]])
+            # proportionalProbabilities: [(0, end), ..., (start, 1)]
+            proportionalProbabilities.append((start , start + probabilities[i]))
             start += probabilities[i]
         
         return proportionalProbabilities
@@ -99,20 +99,20 @@ class AntColonyOptimization:
             truckCapacity (int): The current truck capacity
         '''
         potentialCities = list()
-        for i in unvisited:
-            if self.demand[i] <= truckCapacity and i!= currentCity:
-                potentialCities.append(i)
+        for city in unvisited:
+            if self.demand[city] <= truckCapacity and city != currentCity:
+                potentialCities.append(city)
         
         proportionalProbabilities = self.calculateProbabilities(currentCity, potentialCities)
 
         # Choosing the Random number
         p = random.random()
-        for i in range(len(proportionalProbabilities)):
-            if p >= proportionalProbabilities[i][0] and p < proportionalProbabilities[i][1]:
-                selectedCity = i
+        for city in range(len(proportionalProbabilities)):
+            if p >= proportionalProbabilities[city][0] and p < proportionalProbabilities[city][1]:
+                nextCity = city
                 break
         
-        return potentialCities[selectedCity]
+        return potentialCities[nextCity]
 
 
     def simulateAnt(self, initialize=False) -> Ant:
@@ -127,6 +127,7 @@ class AntColonyOptimization:
         '''
         route = list()
         unvisited = [i for i in range(self.n)]
+        # because of probability calculation in getNextCity function we need to remove depot from unvisited cities
         lim = 1
         if initialize:
             unvisited = unvisited[1:]
@@ -185,10 +186,7 @@ class AntColonyOptimization:
         Updates the Tau Matrix
         '''
         deltaTau = self.computeTau()
-        for i in range(len(self.tau)):
-            for j in range(len(self.tau)):
-                # Updating the Tau Matrix with the help of Delta Tau Matrix and Evaporation Rate
-                self.tau[i][j] = (self.tau[i][j] * self.evapRate) + deltaTau[i][j]
+        self.tau = np.array(self.tau) * self.evapRate + np.array(deltaTau)
             
 
     def run(self):
@@ -199,14 +197,13 @@ class AntColonyOptimization:
 
         # Computing the Tau Matrix
         self.tau = self.computeTau()
-
         for i in range(self.iteration):
             self.AntColonySimulation(initialize=False)
             # Updating Tau Matrix
             self.updateTau()
 
         # Checking the minimum distance after the entire process
-        minDist = float('inf')
+        minDist = np.inf
         for ant in self.ants:
             if ant.distance < minDist:
                 minDist = ant.distance
