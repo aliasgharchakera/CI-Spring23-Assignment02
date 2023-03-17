@@ -8,7 +8,7 @@ class smokeParticle(object):
     
     def __init__(self, l, img, num):
         self.loc = l.get()
-        self.velocity = PVector(random.uniform(0,1), random.uniform(-1,-2))
+        self.velocity = PVector(random.uniform(-2,1), random.uniform(-1,-2))
         self.acceleration = PVector(0,0)
         self.gravity = 0.5
         self.img = img

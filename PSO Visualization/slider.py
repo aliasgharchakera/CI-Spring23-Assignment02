@@ -69,4 +69,14 @@ class Slider:
             smokeParticle.b = value
         if (self.label == 'Car Speed'):
             Car.speed = int(self.val)
+        if (self.label == 'Lifespan'):
+            if int(self.val) in [1,2,3]:
+                particleEmitter.lifespan = 500
+            elif int(self.val) in [4,5]:
+                particleEmitter.lifespan = 400
+            elif (int(self.val) in [6,7,8]):
+                particleEmitter.lifespan = 200
+            elif (int(self.val) in  [9,10]):
+                particleEmitter.lifespan = 100
+                
     

@@ -17,7 +17,7 @@ class GUI:
         self.sliders.append(Slider('Amount of particles', 1, 20, 1, self.bg))
         self.sliders.append(Slider('C02 Intensity', 1,5,1,self.bg))
         self.sliders.append(Slider('Car Speed', 1,5,1,self.bg))
-        self.sliders.append(Slider('Lifespan', 0, 1000, 100, self.bg))
+        self.sliders.append(Slider('Lifespan', 1, 10, 1, self.bg))
         self.tit = '    Particle Simulation\n'
         self.crs = '    Computational Intelligence\n'
         self.auth_1 = '    Muhammad - 06369\n'

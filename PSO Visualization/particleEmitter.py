@@ -3,6 +3,7 @@ from smokeParticle import smokeParticle
 
 class particleEmitter(object):
     it = 0
+    lifespan = 100
     def __init__(self,num,img,loc):
         self.loc = loc.get()
         self.particles = []
@@ -13,28 +14,23 @@ class particleEmitter(object):
 
     def add_particle(self,x,y):
         # print(self.it)
-        for i in range((int(self.it))):
-            self.particles.append(smokeParticle(PVector(x,y), self.img,1))
-        
+        randomNum = random.randint(1,20)
+        if randomNum < self.it:
+            for i in range(randomNum):
+                self.particles.append(smokeParticle(PVector(x,y), self.img,1))
+        else:
+            for i in range(int(self.it)):
+                self.particles.append(smokeParticle(PVector(x,y), self.img,1))
     def update(self):
        for i in reversed(range(len(self.particles))):
            p = self.particles[i]
+           if (p.loc.y < self.lifespan):
+               del self.particles[i]
            p.render()
            p.update()
            if p.isDead():
                del self.particles[i] 
     
-    # def decreaseGravity(self):
-    #     # for i in self.particles:
-    #     #     i.gravity = -0.05
-    #     for i in reversed(range(len(self.particles))):
-    #         p = self.particles[i]
-    #         p.decreaseGravity()
-
-    # def increaseGravity(self):
-    #     for i in reversed(range(len(self.particles))):
-    #         p = self.particles[i]
-    #         p.increaseGravity()
             
     def getParticles(self):
         return self.particles
