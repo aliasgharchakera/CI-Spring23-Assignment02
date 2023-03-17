@@ -137,8 +137,22 @@ Particle System is a collection of many minute particles that together represent
 \textbf{Each of the following phases of particles has been implemented in this system}
 \begin{itemize}
     \item Particle Lifespan
+    \begin{itemize}
+      \item{Each particle is generated randomly in each iteration}
+      \item{Particles moves upwards towards the sky.}
+      \item{Particle is rendered on the screen on each given position}
+      \item{Particle then reaches extinction phase when it dies from the system}
+    \end{itemize}
     \item Particle Generation
+    \begin{itemize}
+      \item{Particle is generated in each iteration of the system randomly. We can control particle generation by increasing or decreasing its chances of generation in the given system.}
+    \end{itemize}
     \item Particle Dynamics
+    \begin{itemize}
+      \item{The particle has a position vector and it is moved by adding the corresponding velocity vector to it.}
+      \item{The particle has a zero acceleration and its velocity is kept constant. However acceleration can be added to velocity.}
+    \end{itemize}
+    \item Extinction
 \end{itemize}
 
 \textbf{The video of the simulation can be seen here: }
