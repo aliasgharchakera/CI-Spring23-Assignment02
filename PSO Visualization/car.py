@@ -23,12 +23,4 @@ class Car(object):
         if (self.l.x > 1140):
             self.l.x = 0 
         return self.l.x
-        # self.ps.update()
-        # self.render()
-        
-    # def addCar(self):
-    #     imageMode(CENTER)
-    #     image(self.img, 0,650)
-    
 
-    
