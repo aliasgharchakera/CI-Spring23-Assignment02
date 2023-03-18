@@ -38,7 +38,6 @@ We have used Ant Colony Optimization (ACO) to solve the Capacitated Vehicle Rout
 \begin{enumerate}
   \item Initialization
   \item Ants' construction
-  \item Route formation
   \item Pheromone update
   \item Termination
 \end{enumerate}
@@ -60,28 +59,90 @@ The first step is to initialize the parameters of the algorithm. The parameters 
 \end{enumerate}
 
 \subsubsection{Ants' construction}
-In this step, the ants are initialized and they start constructing their routes. The ants are initialized at the depot and they move to the next node based on the following formula:
+In this step, the ants are initialized with random routes in the first iteration and in the next iteration they start constructing their routes. The ants are initialized at the depot and they move to the next node based on the following formula:
 \begin{equation}
   P(i,j) = \frac{\tau_{i,j}^\alpha \eta_{i,j}^\beta}{\sum_{k \in \texttt{allowed}} \tau_{i,k}^\alpha \eta_{i,k}^\beta}
 \end{equation}
 where $\tau_{i,j}$ is the pheromone value of the edge between node $i$ and $j$, $\eta_{i,j}$ is the heuristic value of the edge between node $i$ and $j$, $\alpha$ and $\beta$ are the parameters of the algorithm, and $\texttt{allowed}$ is the set of nodes that are allowed to be visited by the ant. The ant moves to the next node based on the probability $P(i,j)$. The probability is calculated by taking the pheromone and heuristic values of the edges and then normalizing them. The ants move to the next node until they reach the depot or the capacity of the vehicle is exceeded. The ants then return to the depot and start constructing their routes again. This process is repeated for all the ants.
 
-\subsubsection{Route formation}
-In this step, the routes of the ants are combined to form a new population. The routes of the ants are combined by taking the best route of each ant. The best route of each ant is the route with the least distance. The best route of each ant is added to the population. The population is then sorted based on the distance of the routes. The best route of the population is the route with the least distance.
+\subsubsection{Pheromone update}
+In this step, the pheromone values of the edges are updated. The pheromone values are updated based on the following formula:
+\begin{equation}
+  \tau_{i,j} = (1 - \rho) \tau_{i,j} + \rho \tau_{i,j}^0
+\end{equation}
+where $\tau_{i,j}^0$ is the initial pheromone value of the edge between node $i$ and $j$, and $\rho$ is the evaporation rate of the algorithm. The pheromone values are updated after each iteration.
+
+\subsubsection{Termination}
+The algorithm terminates when the number of iterations reaches the maximum number of iterations. The best solution is the one with the least distance in all of the iterations.
 
 \subsection{Optimal Solution}
-After tweaking the parameters, and trying several different combinations we got an optimal value of 807.475 for \texttt{A-n32-k5} with the following parameters:
+After tweaking the parameters, and trying several different combinations we got the optimal values with the following parameters:
 \begin{enumerate}
   \item $\alpha = 4$
   \item $\beta = 4$
   \item $\gamma = 0.5$
   \item $\texttt{numAnts} = 30$
 \end{enumerate}
-The following is the route that we found:
+
+\subsubsection{A-n32-k5}
+The minimum distance that we could achieve for this dataset was 807.475. The following is the route that we found:
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\linewidth]{images/min_dist.jpeg}
-  \caption{Root for A-n32-k5}
+  \includegraphics[width=1\linewidth]{images/min_dist_n32-k5.jpeg}
+  \caption{Minimum Distance Route}
+\end{figure}
+Note: We forgot to plot this result, so the minimum distance for which we have a plot is 818.388
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{images/min_dist2_n32-k5.jpeg}
+  \caption{2nd Minimum Distance Route}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{images/min_n32-k5.png}
+  \caption{2nd Minimum Distance Plot}
+\end{figure}
+
+\subsubsection{A-n44-k6}
+The minimum distance that we could achieve for this dataset was 1118.325. The following is the route that we found:
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{images/min_dist_n44-k6.png}
+  \caption{Minimum Distance Route}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{images/min_n44-k6.png}
+  \caption{Minimum Distance Plot}
+\end{figure}
+
+\subsubsection{A-n60-k9}
+The minimum distance that we could achieve for this dataset was 1583.603. The following is the route that we found:
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{images/min_dist_n60-k9.png}
+  \caption{Minimum Distance Route}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{images/min_n60-k9.png}
+  \caption{Minimum Distance Plot}
+\end{figure}
+
+\subsubsection{A-n80-k10}
+The minimum distance that we could achieve for this dataset was 2166.569. The following is the route that we found:
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{images/min_dist_n80-k10.png}
+  \caption{Minimum Distance Route}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{images/min_n80-k10.png}
+  \caption{Minimum Distance Plot}
 \end{figure}
 
 \subsection{Plot}

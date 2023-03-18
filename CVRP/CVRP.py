@@ -215,6 +215,6 @@ class AntColonyOptimization:
         print("Overall Minimum Route: ", self.minRoute)
 
         
-
-aco = AntColonyOptimization(4, 4, 50, 30, 0.5, "A-n32-k5")
-aco.run()
+if __name__ == "__main__":
+    aco = AntColonyOptimization(4, 4, 50, 30, 0.5, "A-n32-k5")
+    aco.run()

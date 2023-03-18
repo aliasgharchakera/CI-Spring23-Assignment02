@@ -3,12 +3,12 @@ import numpy as np
 from CVRP import AntColonyOptimization
 
 
-iterations = 30
-numAnts = 20
+iterations = 50
+numAnts = 30
 def main():
     minlst = []
     avglst = []
-    aco = AntColonyOptimization(4, 4, iterations, numAnts, 0.5, "A-n32-k5")
+    aco = AntColonyOptimization(4, 4, iterations, numAnts, 0.5, "A-n60-k9")
     aco.AntColonySimulation(initialize=True)
     aco.tau = aco.computeTau()
     for i in range(iterations):
@@ -16,6 +16,8 @@ def main():
         aco.updateTau()
         minlst.append(aco.minDistance)
         avglst.append(np.average(aco.avgDistances))
+    print("Overall Minimum Distance: ", aco.minDistance)
+    print("Overall Minimum Route: ", aco.minRoute)
     return minlst, avglst
     
     
