@@ -1,3 +1,5 @@
+#Slider, button and its GUI is taken from: https://github.com/osama-usuf/Interactive-Ant-Colony-Optimization-Simulation
+
 from button import Button
 from slider import Slider
 
