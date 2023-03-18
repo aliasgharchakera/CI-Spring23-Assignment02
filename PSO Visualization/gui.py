@@ -20,7 +20,7 @@ class GUI:
         self.sliders.append(Slider('Lifespan', 1, 10, 1, self.bg))
         self.tit = '    Particle Simulation\n'
         self.crs = '    Computational Intelligence\n'
-        self.auth_1 = '    Muhammad - 06369\n'
+        self.auth_1 = '    Muhammad - mm06369\n'
         self.auth_2 = '    Ali Asghar Yousuf - ay06993'
         self.crdt = self.crs+self.tit+self.auth_1+self.auth_2
 
