@@ -2,7 +2,6 @@
 *.aux
 *.out
 *.log
-*.pdf
 *$py.class
 .DS_Store
 auto/
