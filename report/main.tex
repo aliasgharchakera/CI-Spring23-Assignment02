@@ -30,7 +30,62 @@
   Capacitated Vehicle Routing Problem
 \end{center}}
 
-Plot of the best and average solution of Capacitated Vehicle Routing Problem using Ant Colony Optimization. The best solution is the one with the least distance. The average solution is the average of the distance of all the solutions in the population in each iteration.
+\subsection{Problem Statement}
+The Capacitated Vehicle Routing Problem (CVRP) is a variant of the Vehicle Routing Problem (VRP) in which each vehicle has a limited capacity. The problem is to find a set of routes for a fleet of vehicles to visit a set of customers, each with a demand, and return to the depot. The objective is to minimize the total distance traveled by all vehicles. The problem is NP-hard and is known to be computationally intractable for large instances. The problem is a special case of the Traveling Salesman Problem (TSP) in which the salesman has to visit a set of customers and return to the depot.
+
+\subsection{Solution Approach}
+We have used Ant Colony Optimization (ACO) to solve the Capacitated Vehicle Routing Problem. ACO is a metaheuristic optimization algorithm that is inspired by the behavior of real ants. The algorithm is based on the following steps:
+\begin{enumerate}
+  \item Initialization
+  \item Ants' construction
+  \item Route formation
+  \item Pheromone update
+  \item Termination
+\end{enumerate}
+
+\subsubsection{Initialization}
+The first step is to initialize the parameters of the algorithm. The parameters are:
+\begin{enumerate}
+  \item $\alpha$ - Controls the importance of pheromone
+  \item $\beta$ - Controls the importance of heuristic information
+  \item $\gamma$ - Controls the importance of the capacity constraint
+  \item $\texttt{numAnts}$ - Number of ants
+  \item $\rho$ - Evaporation rate
+  \item $\texttt{iteration}$ - Number of iterations
+  \item $\texttt{capacity}$ - Capacity of each vehicle
+  \item $\tau$ - Pheromone matrix
+  \item $\eta$ - Heuristic matrix
+  \item $\texttt{distances}$ - Distance matrix
+  \item $\texttt{demand}$ - Demand matrix
+\end{enumerate}
+
+\subsubsection{Ants' construction}
+In this step, the ants are initialized and they start constructing their routes. The ants are initialized at the depot and they move to the next node based on the following formula:
+\begin{equation}
+  P(i,j) = \frac{\tau_{i,j}^\alpha \eta_{i,j}^\beta}{\sum_{k \in \texttt{allowed}} \tau_{i,k}^\alpha \eta_{i,k}^\beta}
+\end{equation}
+where $\tau_{i,j}$ is the pheromone value of the edge between node $i$ and $j$, $\eta_{i,j}$ is the heuristic value of the edge between node $i$ and $j$, $\alpha$ and $\beta$ are the parameters of the algorithm, and $\texttt{allowed}$ is the set of nodes that are allowed to be visited by the ant. The ant moves to the next node based on the probability $P(i,j)$. The probability is calculated by taking the pheromone and heuristic values of the edges and then normalizing them. The ants move to the next node until they reach the depot or the capacity of the vehicle is exceeded. The ants then return to the depot and start constructing their routes again. This process is repeated for all the ants.
+
+\subsubsection{Route formation}
+In this step, the routes of the ants are combined to form a new population. The routes of the ants are combined by taking the best route of each ant. The best route of each ant is the route with the least distance. The best route of each ant is added to the population. The population is then sorted based on the distance of the routes. The best route of the population is the route with the least distance.
+
+\subsection{Optimal Solution}
+After tweaking the parameters, and trying several different combinations we got an optimal value of 807.475 for \texttt{A-n32-k5} with the following parameters:
+\begin{enumerate}
+  \item $\alpha = 4$
+  \item $\beta = 4$
+  \item $\gamma = 0.5$
+  \item $\texttt{numAnts} = 30$
+\end{enumerate}
+The following is the route that we found:
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{images/min_dist.jpeg}
+  \caption{Root for A-n32-k5}
+\end{figure}
+
+\subsection{Plot}
+Plots of the best and average solution of Capacitated Vehicle Routing Problem using Ant Colony Optimization. The best solution is the one with the least distance. The average solution is the average of the distance of all the solutions in the population in each iteration.
 \begin{figure}[H]
   \centering
   \textbf{Dataset A-n32-k5}
