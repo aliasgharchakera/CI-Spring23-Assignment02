@@ -46,8 +46,8 @@ The repository includes example results obtained by running the ACO algorithm on
 ## Contributors
 This was a group assignment completed in collaboration with [Muhammad Murtaza]( https://github.com/mm06369/ ).
 
-<a href="https://github.com/aliasgharchakera/CI-Spring23-Assignment01/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=aliasgharchakera/CI-Spring23-Assignment01" />
+<a href="https://github.com/aliasgharchakera/CI-Spring23-Assignment02/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=aliasgharchakera/CI-Spring23-Assignment02" />
 </a>
 
 Made with [contrib.rocks](https://contrib.rocks).
